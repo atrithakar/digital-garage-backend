@@ -24,6 +24,6 @@ export class AuthController {
             }
         }
 
-        return {token: result.token}
+        return result
     }
 }
