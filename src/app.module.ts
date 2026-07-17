@@ -8,10 +8,19 @@ import { VehicleModule } from './vehicle/vehicle.module';
 import { FuelLogModule } from './fuel-log/fuel-log.module';
 import { InsuranceModule } from './insurance/insurance.module';
 import { TagModule } from './tag/tag.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 @Module({
-  imports: [ AuthModule, PrismaModule, VehicleModule, FuelLogModule, InsuranceModule, TagModule],
+  imports: [AuthModule, PrismaModule, VehicleModule, FuelLogModule, InsuranceModule, TagModule],
   controllers: [AppController],
-  providers: [AppService, PrismaService],
+  providers: [AppService,
+    PrismaService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseInterceptor
+    }
+
+  ],
 })
 export class AppModule {}
