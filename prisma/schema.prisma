@@ -37,4 +37,21 @@ model Vehicle {
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+
+  fuelLogs FuelLog[]
+}
+
+model FuelLog {
+  id String @id @default(uuid())
+  vehicleId String
+  odometerReading Int
+  fuelAmountInLitres Float
+  totalCost Float
+  fuelType String
+  refuelDate DateTime
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
