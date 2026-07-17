@@ -49,4 +49,34 @@ export class VehicleController {
         }
         return result
     }
+
+    @Post(':id/tag/:tagId')
+    @UseGuards(JwtAuthGuard)
+    async addTagToVehicle(@Param('id') id: string, @Param('tagId') tagId: string) {
+        const result = await this.vehicleService.addTagToVehicle(id, tagId)
+        if (!result) {
+            throw new NotFoundException('Vehicle not found')
+        }
+        return result
+    }
+
+    @Delete(':id/tag/:tagId')
+    @UseGuards(JwtAuthGuard)
+    async removeTagFromVehicle(@Param('id') id: string, @Param('tagId') tagId: string) {
+        const result = await this.vehicleService.removeTagFromVehicle(id, tagId)
+        if (!result) {
+            throw new NotFoundException('Vehicle not found')
+        }
+        return result
+    }
+
+    @Get(':id/tags')
+    @UseGuards(JwtAuthGuard)
+    async getVehicleWithTags(@Param('id') id: string) {
+        const result = await this.vehicleService.getVehicleWithTags(id)
+        if (!result) {
+            throw new NotFoundException('Vehicle not found')
+        }
+        return result
+    }
 }

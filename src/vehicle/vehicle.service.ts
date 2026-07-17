@@ -51,4 +51,45 @@ export class VehicleService {
             data: vehicle
         })
     }
+
+    async addTagToVehicle(vehicleId: string, tagId: string) {
+        return await this.prisma.vehicle.update({
+            where: {
+                id: vehicleId
+            },
+            data: {
+                tags: {
+                    connect: {
+                        id: tagId
+                    }
+                }
+            }
+        })
+    }
+
+    async removeTagFromVehicle(vehicleId: string, tagId: string) {
+        return await this.prisma.vehicle.update({
+            where: {
+                id: vehicleId
+            },
+            data: {
+                tags: {
+                    disconnect: {
+                        id: tagId
+                    }
+                }
+            }
+        })
+    }
+
+    async getVehicleWithTags(vehicleId: string) {
+        return await this.prisma.vehicle.findUnique({
+            where: {
+                id: vehicleId
+            },
+            include: {
+                tags: true
+            }
+        })
+    }
 }
