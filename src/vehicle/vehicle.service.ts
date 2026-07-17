@@ -18,4 +18,37 @@ export class VehicleService {
             }
         })
     }
+
+    async getAllVehicles(userId: string) {
+        return await this.prisma.vehicle.findMany({
+            where: {
+                userId
+            }
+        })
+    }
+
+    async getVehicleById(id: string) {
+        return await this.prisma.vehicle.findUnique({
+            where: {
+                id
+            }
+        })
+    }
+
+    async deleteVehicle(id: string) {
+        return await this.prisma.vehicle.delete({
+            where: {
+                id
+            }
+        })
+    }
+
+    async updateVehicle(id: string, vehicle: CreateVehicleDto) {
+        return await this.prisma.vehicle.update({
+            where: {
+                id
+            },
+            data: vehicle
+        })
+    }
 }
