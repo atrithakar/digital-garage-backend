@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -10,6 +10,7 @@ import { InsuranceModule } from './insurance/insurance.module';
 import { TagModule } from './tag/tag.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import { NormalizePlateMiddleware } from './common/middleware/normalize-plate.middleware';
 
 @Module({
   imports: [AuthModule, PrismaModule, VehicleModule, FuelLogModule, InsuranceModule, TagModule],
@@ -23,4 +24,10 @@ import { ResponseInterceptor } from './common/interceptors/response.interceptor'
 
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(NormalizePlateMiddleware)
+      .forRoutes('/vehicle/create/');
+  }
+}
